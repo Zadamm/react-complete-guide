@@ -1,10 +1,7 @@
 import React, { Component } from 'react';
+
 import './App.css';
-import CharComponent from './CharComponent/CharComponent';
-import Person from './Person/Person'
-import ValidationComponent from './ValidationComponent/ValidationComponent';
-// import UserInput from './UserInput/UserInput';
-// import UserOutput from './UserOutput/UserOutput';
+import Person from './Person/Person';
 
 class App extends Component {
 
@@ -42,38 +39,23 @@ class App extends Component {
     this.setState({persons: persons})
   }
 
-  changeUsername = (event) => {
-    this.setState({
-      userName: event.target.value
-    })
-  }
-
   togglePersonsHandler = () => {
     const doesShow = this.state.showPersons;
     this.setState({ showPersons: !doesShow });
   }
 
-  textHandler = (event) => {
-    this.setState({textLength: event.target.value.length});
-    this.setState({text: event.target.value});
-  }
-
-  charRemoveHandler = (letterIndex) => {
-    let textArray = this.state.text.split("");
-    textArray.splice(letterIndex, 1);
-    this.setState({text: textArray.join("")})
-  }
-
   render() {
-    const style = {
-      backgroundColor: 'white',
-      font: 'inherit',
-      border: '1px solid blue',
-      padding: '8px',
-      cursor: 'pointer'
-    };
 
     let persons = null;
+
+    let classes = [];
+    if (this.state.persons.length <=2) {
+      classes.push('red')
+    }
+
+    if (this.state.persons.length <=1) {
+      classes.push('bold')
+    }
 
     if (this.state.showPersons) {
       persons = ( 
@@ -89,44 +71,18 @@ class App extends Component {
           })} 
         </div>
       );
-    }
 
-    let letterArray = null;
-
-    if (this.state.textLength > 0) {
-      letterArray = this.state.text.split("").map((letter, letterIndex) => {
-        return <CharComponent 
-          letter={letter} 
-          removeHandler={() => this.charRemoveHandler( letterIndex)}
-          key={letterIndex}
-        />
-      })
     }
 
     return ( 
-    <div className = "App" >
-      {/* <h1> Hi, I 'm a React App</h1> 
-      <p> This is working! </p> 
-      <button 
-        style = { style }
-        onClick = { this.togglePersonsHandler }> Toggle persons 
-      </button> 
-      { persons } */}
-
-      <input type="text" onChange={this.textHandler} value={this.state.text}/>
-      <p>{this.state.text}</p>
-      <div>
-        length of the text is: {this.state.textLength}
-      </div>
-      <ValidationComponent textLength={this.state.textLength}/>
-      {letterArray}
-      {
-        /* <UserInput userNameChangeHandler={this.changeUsername} currentName={this.state.userName}/>
-                <UserOutput userName={this.state.userName} currentName/>
-                <UserOutput userName={this.state.userName}/>
-                <UserOutput userName={this.state.userName}/> */
-      } 
-    </div>
+        <div className = "App" >
+          <h1> Hi, I 'm a React App</h1> 
+          <p className={classes.join(' ')}> This is working! </p> 
+          <button className="button" onClick = { this.togglePersonsHandler }>
+             Toggle persons 
+          </button>
+          { persons }
+        </div>
     );
     // return React.createElement('div', {className: 'App'}, React.createElement('h1', null, 'Does this work?'))
   }
