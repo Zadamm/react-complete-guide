@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 
 import withClass from '../../../hoc/WithClass';
 import classes from './Person.css'
+import AuthContext from './../../../context/auth-context'
 
 class Person extends Component {
   constructor(props) {
@@ -18,7 +19,9 @@ class Person extends Component {
   render() { 
     return (
       <React.Fragment>
-        {this.props.authed ? <p>Authenticated!</p> : <p>Please log in!</p>}
+        <AuthContext.Consumer>
+          {(context) => context.authenticated ? <p>Authenticated!</p> : <p>Please log in!</p>}
+        </AuthContext.Consumer>
         <p key="1" onClick={this.props.click}>I'm a {this.props.name} and I'm {this.props.age} years old!</p>
         <p key="2">{this.props.children}</p>
         <input 

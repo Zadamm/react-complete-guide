@@ -5,6 +5,7 @@ import Persons from '../components/Persons/Persons'
 import Cockpit from '../components/Cockpit/Cockpit'
 import WithClass from '../hoc/WithClass';
 import Aux from '../hoc/Auxillary'
+import AuthContext from '../context/auth-context'
 
 class App extends Component {
 
@@ -101,14 +102,18 @@ class App extends Component {
           >
             Remove Cockpit
           </button>
+          <AuthContext.Provider value={{
+            authenticated: this.state.authed, 
+            login: this.loginHandler
+            }}>
           {this.state.showCockpit ? <Cockpit 
             title={this.props.title}
             showPersons={this.state.showPersons}
             personsLength={this.state.persons.length}
             clicked={this.togglePersonsHandler}
-            login={this.loginHandler}
             /> : null}
           { persons }
+          </AuthContext.Provider>
         </Aux>
     );
     // return React.createElement('div', {className: 'App'}, React.createElement('h1', null, 'Does this work?'))
